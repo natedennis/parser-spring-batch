@@ -1,0 +1,12 @@
+com/natedennis/data/dao/AccessLogDAO.class
+com/natedennis/configuration/AppConfig.class
+com/natedennis/jobs/accesslog/AccessLogItemProcessor.class
+com/natedennis/data/enumeration/Duration.class
+com/natedennis/configuration/InfrastructureConfiguration.class
+com/natedennis/jobs/LogProcessListener.class
+com/natedennis/jobs/accesslog/BatchConfiguration.class
+com/natedennis/jobs/accesslog/dao/Writer.class
+com/natedennis/jobs/ProtocolListener.class
+com/natedennis/data/domain/AccessLog.class
+com/natedennis/Parser.class
+com/natedennis/jobs/accesslog/AccessLogFieldSetMapper.class
