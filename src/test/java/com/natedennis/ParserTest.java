@@ -41,9 +41,6 @@ import com.natedennis.data.dao.AccessLogDAO;
  * Unit test for simple Parser.
  */
 @RunWith(SpringRunner.class)
-//@DataJpaTest
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
-
 @SpringBootTest(classes=Parser.class, webEnvironment = WebEnvironment.NONE)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ParserTest {
@@ -162,7 +159,6 @@ public class ParserTest {
     }
 
     @Test
-//    @Ignore
     @SuppressWarnings("unchecked")
     public void testCopyAccessLog() {
         DateTime dateTime = DateTime.parse("2017-01-01.01:00:00", DateTimeFormat.forPattern(pattern));
