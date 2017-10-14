@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			</dependency>
+		</dependency>
 
 
 		<dependency>
@@ -84,7 +84,10 @@
 		</dependency>
 	</dependencies>
 	<build>
+	  <finalName>parser</finalName>
+	
 		<plugins>
+
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>

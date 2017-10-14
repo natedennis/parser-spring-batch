@@ -145,7 +145,7 @@ public class Parser {
                 logger.info("******");
                 logger.info("*");
                 logger.info("*");
-                ips.forEach(ip -> logger.info(ip));
+                ips.forEach(ip -> logger.info("* " + ip ));
                 logger.info("*");
                 logger.info("*");
                 logger.info("******");
@@ -179,7 +179,7 @@ public class Parser {
         Option helpOption = Option.builder("h").longOpt("help").required(false).desc("shows this message").build();
 
         // default target/classes/access.log
-        Option fileOption = Option.builder("f").longOpt("accesslog").numberOfArgs(1).required(false).type(String.class)
+        Option fileOption = Option.builder("f").longOpt("accesslog").numberOfArgs(1).required(true).type(String.class)
                 .desc("path to log file. default: target/classes/access.log").build();
 
         Option startDateOption = Option.builder("sD").longOpt("startDate").numberOfArgs(1).required(true)
