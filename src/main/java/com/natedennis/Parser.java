@@ -106,10 +106,14 @@ public class Parser {
             if (cmdLine.hasOption("threshold")) {
                 threshold = ((Number) cmdLine.getParsedOptionValue("threshold")).intValue();
             }
-
+            //clean up any old data. alot of this assumed no log 
+            //persistence between application runs
             accessLogDAO.cleanUp();
             
+            //get our spring batch job
             Job accessLogJob = ctx.getBean(ACCESS_LOG_JOB, Job.class);
+            //set some parameters for the job.
+            //runDate is just to avoid having to clear the job from the job store after each run
             JobParameters jobParameters = new JobParametersBuilder()
                     .addDate("runDate", new Date())
                     .addDate("startDate", startDate)
@@ -117,14 +121,16 @@ public class Parser {
                     .addString("file", file)
                     .addLong("threshold", Long.valueOf(threshold))
                     .toJobParameters();
-
+            //launch the job
             JobExecution jobExecution = jobLauncher.run(accessLogJob, jobParameters);
-
+            //check the status
             BatchStatus batchStatus = jobExecution.getStatus();
+            //update the screen while process blocking
             while (batchStatus.isRunning()) {
                 Long c = accessLogDAO.count();
-                log.info("*********** Still running.... "+  c.toString() + " **************");
+                log.info("*********** Still running.... "+  c.toString() + " records added**************");
                 Thread.sleep(1000);
+                //recheck the status
                 batchStatus = jobExecution.getStatus();
             }
             
@@ -133,6 +139,7 @@ public class Parser {
             
             log.debug(String.format("*********** Exit status: %s", exitCode));
 
+            //if we loaded all that successfully run our metrics
             if(exitStatus.equals(ExitStatus.COMPLETED)){
             
                 logger.info("finding ips occuring more than {}, between the dates {} and {}",
@@ -140,6 +147,7 @@ public class Parser {
                         startDate,
                         endDate);
 
+                //query for the ips with mode > threashold and between dates
                 List<String> ips = accessLogDAO.threadHoldQuery(startDate, endDate, threshold);
                 
                 logger.info("******");
@@ -153,6 +161,7 @@ public class Parser {
                 logger.info("copy records matching this criteria to access_log_filtered_copy");
 
                 // TODO this could be moved into an async job as well with status... but
+                //copy the records supporting the above metrics to another table
                 accessLogDAO.copyFilterResults(startDate, endDate, threshold);
                 logger.info(" ");
                 logger.info(" ");
@@ -160,11 +169,17 @@ public class Parser {
                 logger.info("process complete");
                 
             }
-
+            //print some debugging noise for trouble shooting
             JobInstance jobInstance = jobExecution.getJobInstance();
             log.debug(String.format("********* Name of the job %s", jobInstance.getJobName()));            
             log.debug(String.format("*********** job instance Id: %d", jobInstance.getId()));
-            
+            log.info("********************************");
+            log.info("*                              *");
+            log.info("*  Nathan Dennis               *");
+            log.info("*  704.984.0829                *");
+            log.info("*  natebdennis@gmail.com       *");
+            log.info("*                              *");
+            log.info("********************************");
         }
         System.exit(0);
 
