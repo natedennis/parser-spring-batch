@@ -8,7 +8,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Spring Boot Blank Project (from https://github.com/making/spring-boot-blank)</name>
+	<name>Parser Spring Boot - Spring Batch https://github.com/natedennis/parser-spring-batch</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -84,10 +84,57 @@
 		</dependency>
 	</dependencies>
 	<build>
-	  <finalName>parser</finalName>
-	
+		<finalName>parser</finalName>
 		<plugins>
-
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>6.0.4</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost:3306/?serverTimezone=EST</url>
+					<username>root</username>
+					<password></password>
+					<skip>${skipTests}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-schema</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<sqlCommand>DROP SCHEMA IF EXISTS parser_junit</sqlCommand>
+							<srcFiles>
+								<srcFile>src/main/resources/sql/create-parser-junit-db.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+					<execution>
+						<id>create-schema-tables</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<sqlCommand>USE parser_junit</sqlCommand>
+							<srcFiles>
+								<srcFile>src/main/resources/sql/create-parser-junit-tables.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
@@ -113,6 +160,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+
 
 		</plugins>
 	</build>
