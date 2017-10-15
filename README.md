@@ -1,6 +1,15 @@
-# mvn clean compile package install
+# Log Parser 
 
-# java -jar "target/parser.jar" --duration=hourly --startDate="2017-01-01.13:00:00" --threshold=100  --accesslog=src/main/resources/access.log
+Spring Boot
+Spring Batch
+Hibernate ORM
+JPA
+MySQL
+
+
+> mvn clean compile package install
+
+> java -jar "target/parser.jar" --duration=hourly --startDate="2017-01-01.13:00:00" --threshold=100  --accesslog=src/main/resources/access.log
 
 
 
