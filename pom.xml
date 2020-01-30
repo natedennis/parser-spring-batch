@@ -5,7 +5,7 @@
 
 	<groupId>com.natedennis</groupId>
 	<artifactId>parser-spring-batch</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Parser Spring Boot - Spring Batch https://github.com/natedennis/parser-spring-batch</name>
